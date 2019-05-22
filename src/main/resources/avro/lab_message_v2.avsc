@@ -1,0 +1,9 @@
+{"namespace": "com.alexb.lab.model",
+ "type": "record",
+ "name": "LabMessage",
+ "fields": [
+     {"name": "id", "type": "int", "doc" : "ID"},
+     {"name": "name", "type": "string", "doc" : "Name"},
+     {"name": "description", "type": "string", "doc" : "Description", "default": "null"}
+ ]
+}
