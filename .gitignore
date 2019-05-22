@@ -18,7 +18,7 @@ target/
 .gradle
 .DS_Store
 
-redis/data/*.aof
+*.aof
 
 ### NetBeans ###
 nbproject/private/
