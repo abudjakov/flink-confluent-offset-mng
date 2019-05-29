@@ -17,22 +17,21 @@ import java.util.Arrays;
 import java.util.Properties;
 
 @Slf4j
-public class ProducerAvroLab {
+public class ProducerAvroFromTopic {
 
 
-    /**
-     * kafka-console-producer \
-     * --broker-list localhost:9092 \
-     * --property "parse.key=true" \
-     * --property "key.separator= " \
-     * --topic lab.simple < /Users/me/work/projects/github/flink-confluent-offset-mng/src/main/resources/input/input-lab-v1.txt
-     *
-     * kafka-avro-console-consumer \
-     * --bootstrap-server localhost:9092 \
-     * --from-beginning \
-     * --property print.key=true \
-     * --property schema.registry.url=http://localhost:8081 \
-     * --topic lab.avro
+    /*
+     kafka-console-producer \
+     --broker-list localhost:9092 \
+     --property "parse.key=true" \
+     --property "key.separator= " \
+     --topic lab.simple < input-lab-v1.txt
+
+     kafka-avro-console-consumer \
+     --bootstrap-server localhost:9092 \
+     --property print.key=true \
+     --property schema.registry.url=http://localhost:8081 \
+     --topic lab.avro
      */
     public void init() {
         KafkaConsumer<String, String> consumer = createConsumer("avro-cg");
@@ -82,6 +81,6 @@ public class ProducerAvroLab {
     }
 
     public static void main(String[] args) {
-        new ProducerAvroLab().init();
+        new ProducerAvroFromTopic().init();
     }
 }

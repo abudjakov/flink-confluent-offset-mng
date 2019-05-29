@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+    <Properties>
+        <Property name="Console_Pattern">%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p --- [%35.35t] %-40.40c{1.} : %m%n%ex}{ERROR=red, WARN=yellow, INFO=grey, DEBUG=green,
+            TRACE=blue}
+        </Property>
+        <Property name="File_Pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p --- [%35.35t] %-40.40c{1.} : %m%n%ex</Property>
+    </Properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p --- [%18.18t] %-40.40c{1.} : %m%n%ex}{ERROR=red, WARN=yellow, INFO=grey, DEBUG=green, TRACE=blue}"/>
+            <PatternLayout pattern="${Console_Pattern}"/>
         </Console>
+
+        <RollingRandomAccessFile name="File"
+                                 fileName="/tmp/logs/app.log"
+                                 filePattern="/tmp/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+                                 immediateFlush="true"
+                                 append="true">
+            <PatternLayout pattern="${File_Pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
     </Appenders>
 
     <Loggers>
-        <Logger name="com.alexb" level="info" additivity="false">
+
+        <Logger name="com.alexb.lab" level="info" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Logger>
+
 
         <Root level="info">
             <AppenderRef ref="Console"/>

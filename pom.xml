@@ -52,6 +52,10 @@
                     <groupId>log4j</groupId>
                     <artifactId>log4j</artifactId>
                 </exclusion>
+               <!-- <exclusion>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-schema-registry-client</artifactId>
+                </exclusion>-->
             </exclusions>
         </dependency>
 
@@ -87,12 +91,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka-0.11_${scala.version}</artifactId>
+            <artifactId>flink-connector-kafka_${scala.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-wikiedits_${scala.version}</artifactId>
+            <artifactId>flink-avro-confluent-registry</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -208,6 +213,7 @@
                             <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
                             <includes>
                                 <include>lab_message_v2.avsc</include>
+                                <include>result_message.avsc</include>
                             </includes>
                             <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
                         </configuration>
@@ -267,11 +273,11 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <transformers>
+ <!--                           <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.alexb.flink.WikipediaAnalysis</mainClass>
+                                    <mainClass>candicate.Class</mainClass>
                                 </transformer>
-                            </transformers>
+                            </transformers>-->
                         </configuration>
                     </execution>
                 </executions>

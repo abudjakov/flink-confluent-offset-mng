@@ -44,13 +44,24 @@ kafka-console-consumer \
 --property key.separator=, \
 --topic lab.simple 
 ```
+-----------------------------------------------------
 
 *Console producer with value only*
 ```
 kafka-console-producer \
 --broker-list localhost:9092 \
---topic test 
+--topic lab.simple 
 ```
+
+*Console consumer with value only*
+```
+kafka-console-consumer \
+--bootstrap-server localhost:9092 \
+--from-beginning \
+--topic lab.simple
+```
+
+-----------------------------------------------------
 
 *Console producer that sends prepared sequences*
 ```
@@ -66,15 +77,7 @@ kafka-console-producer \
 --broker-list localhost:9092 \
 --property "parse.key=true" \
 --property "key.separator= " \
---topic lab.simple < /Users/me/work/projects/github/flink-confluent-offset-mng/src/main/resources/input/input-lab-v1.txt
-```
-
-*Console consumer with value only*
-```
-kafka-console-consumer \
---bootstrap-server localhost:9092 \
---from-beginning \
---topic test 
+--topic lab.simple < input-lab-v1.txt
 ```
 
 *Kafkacat - netcat*
@@ -140,7 +143,7 @@ kafka-avro-console-consumer \
 --from-beginning \
 --property print.key=true \
 --property schema.registry.url=http://localhost:8081 \
---topic lab.avro 
+--topic lab.avro.sink
 ```
 
 *Run Flink job on session cluster*
@@ -148,9 +151,18 @@ kafka-avro-console-consumer \
 JOBMANAGER_CONTAINER=$(docker ps --filter name=jobmanager --format={{.ID}})
 $ docker cp path/to/jar "$JOBMANAGER_CONTAINER":/job.jar
 $ docker exec -it "$JOBMANAGER_CONTAINER" flink run -c a.b.RunClass /job.jar
+
+JOBMANAGER_CONTAINER=$(docker ps --filter name=jobmanager --format={{.ID}})
+docker cp flink-confluent-offset-mng-1.0.0.0-SNAPSHOT.jar "$JOBMANAGER_CONTAINER":/job.jar
+docker exec -it "$JOBMANAGER_CONTAINER" flink run -sae -c com.alexb.lab.flink.FlinkStreamAvroKafkaProducerSink /job.jar
 ```
 
 *Scale the cluster up or down to N TaskManagers*
 ```
 docker-compose scale taskmanager=<N>
+```
+
+*Netcat scanning host and port*
+```
+nc -vz schema-registry 8081
 ```

@@ -9,7 +9,9 @@ services:
       - "8082:8081"
     command: jobmanager
     environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      JOB_MANAGER_RPC_ADDRESS: jobmanager
+    volumes:
+      - /tmp/logs/:/tmp/logs/:rw
 
   taskmanager:
     image: flink
@@ -22,4 +24,11 @@ services:
     links:
       - "jobmanager:jobmanager"
     environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      JOB_MANAGER_RPC_ADDRESS: jobmanager
+    volumes:
+      - /tmp/logs/:/tmp/logs/:rw
+
+networks:
+  default:
+    external:
+      name: confluent_default
